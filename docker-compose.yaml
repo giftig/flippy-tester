@@ -5,7 +5,8 @@ nginx:
   ports:
     - '9002:80'
   volumes:
-    - ./src/main/resources/nginx.conf:/etc/nginx/nginx.conf
+    - ./src/main/resources/nginx.conf:/etc/nginx/nginx.conf:ro
+    - ../flippy/static/:/usr/share/nginx/html:ro
 
 flippy:
   image: java:8-jre
