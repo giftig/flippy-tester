@@ -1,0 +1,21 @@
+nginx:
+  image: nginx:latest
+  links:
+    - flippy
+  ports:
+    - '9002:80'
+  volumes:
+    - ./src/main/resources/nginx.conf:/etc/nginx/nginx.conf
+
+flippy:
+  image: java:8-jre
+  links:
+    - redis
+  ports:
+    - '9001:9001'
+  volumes:
+    - ./build:/usr/local/flippy
+  command: 'java -jar /usr/local/flippy/flippy-tester-0.0.1.jar'
+
+redis:
+  image: redis
