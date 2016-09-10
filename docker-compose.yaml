@@ -1,22 +1,25 @@
-nginx:
-  image: nginx:latest
-  links:
-    - flippy
-  ports:
-    - '9002:80'
-  volumes:
-    - ./src/main/resources/nginx.conf:/etc/nginx/nginx.conf:ro
-    - ../flippy/static/:/usr/share/nginx/html:ro
+version: '2'
 
-flippy:
-  image: java:8-jre
-  links:
-    - redis
-  ports:
-    - '9001:9001'
-  volumes:
-    - ./build:/usr/local/flippy
-  command: 'java -jar /usr/local/flippy/flippy-tester-0.1.1-SNAPSHOT.jar'
+services:
+  nginx:
+    image: nginx:latest
+    depends_on:
+      - flippy
+    ports:
+      - '9002:80'
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../flippy/static/:/usr/share/nginx/html:ro
 
-redis:
-  image: redis
+  flippy:
+    image: giftig/flippy-standalone:0.1.2
+    depends_on:
+      - redis
+    ports:
+      - '9001:8080'
+    volumes:
+      - ./build:/usr/local/flippy
+    command: '--port 8080 --backend-host redis --backend-port 6379'
+
+  redis:
+    image: redis
