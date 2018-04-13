@@ -10,8 +10,6 @@ serving the main flippy interface on port 9001 and the nginx interface on port
 testing of an interface cross-domain.
 
 Note that you'll need `flippy` cloned into a directory alongside this project,
-and the admin interface can be accessed on
-http://localhost:8002/static/html/admin.html as it serves `flippy/static` under
-the `/static` url, and that's the path to the admin page in that directory.
+as the provided docker-compose mounts static files for nginx from `../flippy/static`
 You can, of course, customise all of this by altering the nginx config or
 docker-compose files.
